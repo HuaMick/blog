@@ -2,89 +2,93 @@
 layout: post
 title: "Open ADRs + AI Chat Were Ahead of Their Time"
 date: 2026-06-18
+description: "Publishing your decision records behind an AI chat interface is a powerful accountability tool — and it can't safely exist until AI is jailbreak-resistant and owned by an independent third party."
+# image: /assets/img/open-adrs.jpg   # uncomment and add a file to give this post a cover image
 ---
 
-Architecture Decision Records were always a slightly nerdy habit. The pitch was
-simple: when your team makes a consequential technical choice — this database,
-that boundary, this protocol — you write down *what* you decided and, more
-importantly, *why*, plus the alternatives you rejected. One short markdown file
-per decision, committed next to the code.
+Architecture Decision Records started as a modest habit: when a team makes a
+consequential technical choice, write down *what* you decided and, more
+importantly, *why* — the alternatives, the trade-offs, the context. One short
+file per decision, kept next to the code.
 
-Most teams that adopted ADRs watched them rot. The first dozen get written with
-enthusiasm. Then a decision gets quietly reversed in a hallway conversation, the
-record never gets updated, and six months later nobody trusts the folder. The
-decision log becomes a museum: a record of what people *once* believed, not a
-tool you actually reach for.
+Now take that idea and point it outward. Not a private folder, but a **public
+decision log** — and not a folder you have to read, but an **AI chat interface**
+sitting in front of it. Anyone could ask an organization, in plain language,
+*why did you make this call?* and get a real answer, grounded in the actual
+record. Not a press release. Not a carefully-worded FAQ. The reasoning itself,
+interrogable on demand.
 
-For human-only teams, that failure mode was almost rational. The ceremony rarely
-paid for itself. The people who needed the context were usually in the room when
-the decision was made, and the ones who weren't could just ask. Writing it all
-down, keeping it current, modelling supersession — it felt like over-engineering
-a problem that a Slack message solved.
+That is a remarkable accountability mechanism. Picture it pointed at a government
+department, a standards body, a company whose choices affect millions of people.
+Freedom-of-information requests, but instant and conversational — the decisions
+that shape our lives, open to questioning by the people they affect.
 
-So a lot of us built something more ambitious anyway, and it felt like
-over-engineering at the time. Not just *recording* decisions, but keeping them as
-a **living, open, structured graph**:
+It is also, right now, a terrible idea. And the reason it's a terrible idea
+*today* is exactly the reason it's a great idea *eventually*. This is an idea
+ahead of its time.
 
-- every decision carries a **status lifecycle** — proposed, accepted, superseded;
-- decisions point at each other with explicit **supersession edges**, so the
-  history stays honest instead of silently drifting;
-- each one can carry **open questions** — the parts that aren't settled yet,
-  named out loud rather than left implicit;
-- and the whole thing is **legible** — readable by any teammate, and, crucially,
-  by any machine.
+## The danger isn't transparency. It's that the AI can be turned against the people.
 
-For years that looked like decision-record cosplay. Why model a graph when a doc
-would do? Why track open questions when you could just... decide later?
+Here's the failure mode. You publish your decisions and put an AI chat over them.
+At first people ask reasonable questions about the decisions. Then someone
+realizes the more interesting target isn't the decision — it's the **people
+behind it**.
 
-Then the thing that builds the code changed.
+Today's AI can be jailbroken. A public chat over an internal record is an
+adversarial surface, and a determined interrogator will not politely stay on
+topic. They'll coax the model into surfacing who argued for what, who dissented,
+whose name is on which line — and then individual contributors get dragged into
+public scrutiny they never signed up for. An institution might be perfectly
+willing to stand behind its *decisions* in public. That is not the same as
+feeding its *employees* to a pile-on.
 
-## The bottleneck moved
+So the very thing that makes the idea powerful — an AI that will actually answer
+hard questions about a decision — is the thing that makes it dangerous, because
+the model isn't yet smart or robust enough to hold a line. It can't reliably tell
+the difference between *"explain this decision"* and *"expose the person who made
+it,"* and it can't keep its footing when someone is actively trying to trick it
+into the second.
 
-When an AI agent writes most of the code, the scarce resource is no longer
-typing. It's **alignment** — keeping the machine's thousands of small choices
-consistent with the handful of architectural intentions a human actually holds in
-their head. An agent will happily build the wrong thing, correctly, very fast. The
-hard part is making sure it knows what "the right thing" is, and keeps knowing it
-across sessions, across context windows, across months.
+## What has to be true first
 
-That is *exactly* the problem an open, machine-readable decision log solves — and
-it turns out the chat interface was the missing half.
+For this to work, AI has to get good enough to provide **protection**, not just
+answers. It needs to do something genuinely hard: be fully transparent about the
+*institution's* reasoning while shielding the *individuals* inside it — and hold
+that line under adversarial pressure, against people whose entire goal is to
+break it. Decision-level transparency, person-level protection. That isn't a
+prompt; it's a capability we don't reliably have yet.
 
-Point an agent at a pile of source code and it reverse-engineers intent, badly.
-Point it at an open decision graph and it has **ground truth**: here is what we
-decided, here is what's been overturned, here is what's still open. The agent
-reads decisions the way a new senior engineer would — except it never forgets to,
-and it never has to be in the room.
+But even a jailbreak-proof model isn't enough, because there's a second question:
+**who owns it?**
 
-And it goes both ways. The open questions become a **handshake between human
-intent and machine execution**: the agent hits an unresolved fork, surfaces the
-question instead of guessing, a human answers in chat, and the answer is recorded
-as a decision — not lost in a thread. Supersession means the agent is never
-quietly working from a belief you abandoned last week. The decision log stops
-being documentation *about* the work and becomes the **interface** to it.
+If the institution being interrogated owns the AI, no one will trust its answers
+— and they'd be right not to. It's the fox describing the henhouse: it will be
+suspected, fairly, of steering, softening, and burying. Captured. If instead the
+model is some open free-for-all, you're back to the attack-surface problem.
 
-That's the "AI chat" half. You don't navigate the decisions by reading a folder.
-You talk to them. "Why is the store keyless?" "What did we decide about the
-worker boundary, and what's still open?" "We're reversing the caching call —
-record it and tell me what it supersedes." The decision graph is the model; the
-conversation is the way in and out.
+The resolution is independence. The interrogation layer should be operated by a
+**trusted, independent third party — an audit company whose independence is the
+entire product.** Its credibility comes precisely from *not* being owned by the
+organization it questions, and its protection of contributors comes from being
+robust and accountable to a professional standard rather than to whoever is
+shouting loudest.
 
-## Why it was ahead of its time
+We already have a model for this: **professional journalism in a functioning
+democracy.** A free press holds power to account *because* it is independent of
+that power. It publishes what's in the public interest while protecting its
+sources. An independent AI audit layer over public decision records would be the
+same institution, rebuilt for an age of machine-mediated transparency — an
+ombudsman sitting between the public and the institution, trusted by both because
+it is owned by neither.
 
-We built this layer thinking it was good hygiene. It turns out to be something
-closer to **governance for AI-built software**. Decisions-as-data was premature in
-2018 — a solution looking for the problem it would eventually be load-bearing for.
-In 2026, with agents doing the building, it's the substrate that keeps the whole
-thing from drifting.
+## Why it's ahead of its time
 
-The deeper shift is in what the *unit of collaboration* is. For thirty years it
-was the commit — the diff was where humans and the codebase met. As agents
-absorb the diff, the meeting point moves up a level, to the **decision**. The
-repos that thrive in an agentic world won't be the ones with the cleanest code.
-The code is cheap now. They'll be the ones with the most **legible intent** — a
-decision layer an agent can read, reason over, and be held to.
+The mechanism — open ADRs, an AI chat interface — is buildable today. What isn't
+here yet is everything that makes it *safe*: AI robust enough to resist being
+jailbroken into exposing people, and the independent institutions to own and
+operate it with credibility. The idea is waiting on the technology to grow up and
+on the institutions to be built.
 
-Open ADRs plus a chat interface wasn't a documentation practice that happened to
-survive. It was the alignment layer for AI coding, built a few years before the
-AI showed up to need it.
+When both arrive, this could be to institutional accountability what independent
+journalism was to democracy: the thing that lets the public interrogate power
+without the people inside power becoming collateral.

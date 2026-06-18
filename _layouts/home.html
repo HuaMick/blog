@@ -1,0 +1,21 @@
+---
+layout: default
+---
+{% if content != "" %}<div class="home-intro">{{ content }}</div>{% endif %}
+
+<ul class="card-grid">
+  {% for post in site.posts %}
+  <li class="card">
+    <a class="card-link" href="{{ post.url | relative_url }}">
+      {% if post.image %}
+      <div class="card-image" style="background-image:url('{{ post.image | relative_url }}')"></div>
+      {% endif %}
+      <div class="card-body">
+        <time class="card-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+        <h2 class="card-title">{{ post.title }}</h2>
+        {% if post.description %}<p class="card-excerpt">{{ post.description }}</p>{% endif %}
+      </div>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
