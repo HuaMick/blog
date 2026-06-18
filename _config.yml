@@ -1,0 +1,13 @@
+title: Mick's Notes
+description: Essays on building software with AI agents.
+theme: minima
+url: "https://huamick.github.io"
+baseurl: "/blog"
+permalink: /:title/
+
+# minima settings
+author:
+  name: Mick
+
+plugins:
+  - jekyll-feed
